@@ -34,6 +34,28 @@ No contexto de Retrieval-Augmented Generation (RAG), há algumas preocupações 
 
 - Configuração Adequada: Ajustar a sobreposição corretamente é crucial para manter a continuidade e a relevância das informações.
 
+## Benefícios de usar RAG
+### Precisão e atualização das informações
+Busca informações em fontes externas, garantindo respostas mais precisas e relevantes.
+Permite acesso a dados atualizados e específicos de um domínio.
+
+### Lidar com informações complexas
+Processa informações de diversas fontes, como documentos longos e tabelas.
+Cria respostas completas e informativas, que vão além do que o LLM poderia gerar sozinho.
+
+### Personalização e adaptação
+Adapta o LLM para fornecer informações de um domínio específico (medicina, direito, finanças, etc.).
+Cria chatbots e assistentes virtuais especializados em áreas específicas.
+
+### Aumento da confiança nas respostas
+Fornece referências e links para as fontes de informação utilizadas.
+Permite que o usuário verifique as fontes e tenha mais segurança na precisão das informações.
+
+### Outros benefícios
+Melhora a qualidade geral das respostas geradas pelo LLM.
+Permite a criação de aplicações mais robustas e confiáveis.
+Abre novas possibilidades para o uso de LLMs em diversas áreas.
+
 ## Desafios do RAG
 ### Latência e Performance
 O processo de buscar documentos relevantes antes de gerar uma resposta pode aumentar o tempo de resposta.
