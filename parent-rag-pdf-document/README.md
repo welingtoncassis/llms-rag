@@ -1,4 +1,4 @@
-📌 O que é Parent RAG?
+📌 # O que é Parent RAG?
 
 O Parent RAG é uma abordagem que melhora a recuperação de informações no RAG tradicional ao introduzir uma relação entre documentos pais e filhos. Em vez de dividir o documento em pequenos fragmentos e buscar nesses fragmentos individualmente, o Parent RAG mantém os documentos pais maiores e seus respectivos filhos menores, garantindo que a recuperação de contexto seja mais coerente e menos fragmentada.
 
