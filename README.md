@@ -15,6 +15,7 @@ Essa técnica melhora a precisão e confiabilidade das respostas, permitindo que
 
 - [RAG para PDFs](rag-pdf-document/README.md): Exemplo de recuperação aumentada de geração aplicada a documentos PDF.
 - [RAG para code review](rag-code-review/README.md): Exemplo RAG para code review
+- [PARENT RAG](parent-rag-pdf-document/README.md): Exemplo de Parent RAG
 
 ## Chunks e overlap
 No contexto de Retrieval-Augmented Generation (RAG), há algumas preocupações importantes a serem consideradas com relação ao tamanho do chunk (E chunk size) e a sobreposição dos chunks (Q chunk overlap):
