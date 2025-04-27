@@ -14,7 +14,7 @@ embeddings_model = OpenAIEmbeddings()
 llm = ChatOpenAI(model_name = "gpt-3.5-turbo", max_tokens = 200)
 
 #Carregar o pdf
-pdf_link = "Welington_Assis_Resume_Generic.pdf"
+pdf_link = "os-sertoes.pdf"
 loader = PyMuPDFLoader(pdf_link)
 documents = loader.load()
 

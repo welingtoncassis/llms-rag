@@ -13,7 +13,7 @@ from langchain.storage import InMemoryStore
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 llm = ChatOpenAI(model_name="gpt-3.5-turbo", max_tokens=300)
 
-pdf_link = "Welington_Assis_Resume_Generic.pdf"
+pdf_link = "os-sertoes.pdf"
 
 loader = PyPDFLoader(pdf_link, extract_images=False)
 pages = loader.load_and_split()
@@ -42,7 +42,7 @@ parent_document_retriever.add_documents(pages, ids=None)
 parent_document_retriever.vectorstore.get()
 
 TEMPLATE =  """
-    Você é um analista de RH. Responda a pergnta utilizando o contexto informado
+    Você é um especialista em literatura brasileira. Responda a pergunta abaixo utilizando o contexto informado
     Query:
     {question}
 
