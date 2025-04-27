@@ -1,66 +1,109 @@
-# 📚 Projeto RAG com Re-Rank: Análise de "Os Sertões"
+# llms-rag
 
-Este projeto implementa uma arquitetura RAG (Retrieval-Augmented Generation) com reranqueamento (reranking) para responder a perguntas específicas sobre o livro _"Os Sertões"_ de Euclides da Cunha.
+## O que é RAG (Retrieval-Augmented Generation)?
 
-Utilizamos um modelo LLM (ChatGPT), embeddings da OpenAI, uma base vetorial (ChromaDB) e um reranker da Cohere para otimizar a busca de trechos relevantes antes de gerar a resposta final.
+RAG (Retrieval-Augmented Generation) é uma abordagem que combina recuperação de informações com modelos de geração de linguagem (LLMs) para fornecer respostas mais precisas e contextuais. Em vez de confiar apenas no conhecimento pré-treinado do modelo, o RAG busca informações relevantes em uma base de dados antes de gerar uma resposta.
 
----
+## Como funciona o RAG?
 
-## 🧠 O que é Rerank RAG?
+- Entrada do usuário: O usuário faz uma pergunta ou insere um prompt.
+- Recuperação de contexto: O sistema busca documentos relevantes em uma base de conhecimento (banco vetorial, banco de dados, APIs, etc.).
+- Geração aumentada: O modelo de linguagem (LLM) utiliza os dados recuperados para gerar uma resposta mais precisa e informada.
+- Resposta ao usuário: O resultado final é apresentado, contendo informações extraídas do contexto recuperado.
 
-- O Rerank RAG é uma evolução do RAG clássico.
-- No RAG tradicional:
-  Após buscar os documentos mais relevantes (top K), todos são usados diretamente para gerar a resposta.
+Essa técnica melhora a precisão e confiabilidade das respostas, permitindo que os modelos respondam com base em informações externas e atualizadas.
 
-- No Rerank RAG:
-  Após buscar os documentos (top K), um reranker (modelo de aprendizado) reorganiza ou filtra os documentos.
-  Somente os melhores (mais relevantes para a pergunta) são enviados para o LLM.
+## Exemplos de RAG
 
-- Benefícios do Rerank RAG:
-  Reduz o ruído no contexto.
-  Melhora a qualidade e a precisão da resposta.
-  Usa menos tokens (mais barato e rápido).
+- [RAG para PDFs](rag-pdf-document/README.md): Exemplo de recuperação aumentada de geração aplicada a documentos PDF.
+- [RAG para code review](rag-code-review/README.md): Exemplo RAG para code review
+- [PARENT RAG](parent-rag-pdf-document/README.md): Exemplo de Parent RAG
 
-- No projeto:
-  Recuperamos 10 documentos.
-  O reranker da Cohere seleciona os 3 mais relevantes.
-  O ChatGPT gera a resposta com base apenas nesses 3.
+## Chunks e overlap
 
-## 🔧 Como funciona o projeto
+No contexto de Retrieval-Augmented Generation (RAG), há algumas preocupações importantes a serem consideradas com relação ao tamanho do chunk (E chunk size) e a sobreposição dos chunks (Q chunk overlap):
 
-1. **Carregamento de ambiente:**  
-   As variáveis de ambiente são carregadas usando `dotenv`.
+### Tamanho do Chunk (E chunk size):
 
-2. **Carregamento do documento:**  
-   O PDF de _"Os Sertões"_ é carregado e dividido em pequenas partes (chunks) de até 4000 caracteres.
+- Chunks Pequenos: Menores chunks permitem incluir mais informações no contexto, mas podem resultar em falta de contexto suficiente para a compreensão completa.
 
-3. **Indexação vetorial:**  
-   Os chunks são embutidos usando o modelo `text-embedding-3-small` da OpenAI e armazenados em uma base vetorial (`ChromaDB`).
+- Chunks Grandes: Maiores chunks fornecem mais contexto, mas podem incluir informações irrelevantes, diluindo a qualidade da saída.
 
-4. **Configuração do retriever inicial:**  
-   O retriever inicial (`naive_retriever`) busca os 10 chunks mais semelhantes ao texto da pergunta.
+- Equilíbrio: O desafio é encontrar um tamanho de chunk que equilibre a quantidade de informações relevantes e a eficiência do processamento.
 
-5. **Re-Ranking com Contextual Compression:**  
-   Em vez de usar todos os 10 resultados, o projeto utiliza um reranker (`CohereRerank`) que:
+### Sobreposição dos Chunks (Q chunk overlap):
 
-   - **Reavalia** os 10 chunks recuperados,
-   - **Seleciona** apenas os 3 mais relevantes.
+- Sobreposição: A sobreposição garante que informações importantes não sejam perdidas entre chunks consecutivos, preservando o contexto.
 
-   Isso é feito com a classe `ContextualCompressionRetriever`, que comprime o contexto retornado, aumentando a precisão da resposta.
+- Sem Sobreposição: Sem sobreposição, pode haver lacunas de contexto que afetam a precisão das respostas geradas.
 
-6. **Geração de resposta:**  
-   Um prompt específico é montado com o contexto selecionado e a pergunta.  
-   O ChatGPT (gpt-3.5-turbo) gera a resposta com até 500 tokens.
+- Configuração Adequada: Ajustar a sobreposição corretamente é crucial para manter a continuidade e a relevância das informações.
 
-7. **Execução:**  
-   As perguntas listadas no código são respondidas automaticamente e impressas no console.
+## Benefícios de usar RAG
 
----
+### Precisão e atualização das informações
 
-## 🚀 Como rodar o projeto
+Busca informações em fontes externas, garantindo respostas mais precisas e relevantes.
+Permite acesso a dados atualizados e específicos de um domínio.
 
-1. Clone o repositório.
-2. Instale as dependências necessárias:
-   ```bash
-   pip install langchain langchain-openai langchain-cohere langchain-community chromadb python-dotenv
-   ```
+### Lidar com informações complexas
+
+Processa informações de diversas fontes, como documentos longos e tabelas.
+Cria respostas completas e informativas, que vão além do que o LLM poderia gerar sozinho.
+
+### Personalização e adaptação
+
+Adapta o LLM para fornecer informações de um domínio específico (medicina, direito, finanças, etc.).
+Cria chatbots e assistentes virtuais especializados em áreas específicas.
+
+### Aumento da confiança nas respostas
+
+Fornece referências e links para as fontes de informação utilizadas.
+Permite que o usuário verifique as fontes e tenha mais segurança na precisão das informações.
+
+### Outros benefícios
+
+Melhora a qualidade geral das respostas geradas pelo LLM.
+Permite a criação de aplicações mais robustas e confiáveis.
+Abre novas possibilidades para o uso de LLMs em diversas áreas.
+
+## Desafios do RAG
+
+### Latência e Performance
+
+O processo de buscar documentos relevantes antes de gerar uma resposta pode aumentar o tempo de resposta.
+Indexação e recuperação eficientes exigem um bom balanceamento entre precisão e velocidade.
+
+### Qualidade da Recuperação
+
+Se os documentos recuperados não forem relevantes ou estiverem desatualizados, o modelo pode gerar respostas erradas.
+A eficácia da busca depende da qualidade dos embeddings e da estratégia de recuperação (ex.: BM25, FAISS).
+
+### Alucinações do Modelo Generativo
+
+Mesmo com boas informações recuperadas, o LLM pode interpretar mal ou gerar informações incorretas.
+A fusão entre as informações buscadas e a resposta gerada pode introduzir imprecisões.
+
+### Manutenção da Base de Conhecimento
+
+Atualizar os dados indexados para garantir informações recentes pode ser um desafio técnico.
+Dependendo do volume de dados, a reindexação pode ser cara e demorada.
+
+### Contexto e Limites de Memória
+
+A limitação do contexto do modelo pode impedir que ele processe um grande número de documentos recuperados.
+Estratégias como sumarização ou ranqueamento dos documentos precisam ser bem ajustadas.
+Limitações do RAG
+
+### Dependência de Dados Externos
+
+Se os documentos disponíveis forem insuficientes ou tendenciosos, o modelo gerará respostas enviesadas ou incompletas.
+
+### Dificuldade com Respostas Síntese
+
+Se a resposta ideal exige consolidar informações de múltiplas fontes, o modelo pode falhar ao conectá-las corretamente.
+
+### Segurança e Privacidade
+
+Dependendo dos dados utilizados na recuperação, pode haver riscos de exposição de informações sensíveis.
+Garantir que documentos privados não sejam indevidamente usados na geração é um desafio.
